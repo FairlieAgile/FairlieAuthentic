@@ -11,7 +11,14 @@ namespace FairlieAuthenticClientJWT
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Account",
+                url: "Account/Login",
+                defaults: new { controller = "Account", action = "Login" }
+            );
+
+routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
                 name: "Default",

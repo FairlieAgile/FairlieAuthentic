@@ -17,19 +17,26 @@ namespace FairlieAuthenticClientJWT.Infrastructure
     {
         public override ClaimsPrincipal ValidateToken(JWTSecurityToken jwt, TokenValidationParameters validationParameters)
         {
-            if ((validationParameters.ValidIssuer == null) &&
-                (validationParameters.ValidIssuers == null || !validationParameters.ValidIssuers.Any()))
-            {
-                validationParameters.ValidIssuers = new List<string> { ((ConfigurationBasedIssuerNameRegistry)Configuration.IssuerNameRegistry)
-                    .ConfiguredTrustedIssuers.First().Value };
-            }
+            //if ((validationParameters.ValidIssuer == null) &&
+            //(validationParameters.ValidIssuers == null || !validationParameters.ValidIssuers.Any()))
+            //{
+            //    validationParameters.ValidIssuers = new List<string>(((ValidatingIssuerNameRegistry)Configuration.IssuerNameRegistry).IssuingAuthorities.First().Issuers);
+            //}
 
-            if (validationParameters.SigningToken == null)
-            {
-                validationParameters.SigningToken = new X509SecurityToken(new X509Certificate2(
-                    GetSigningCertificate(ConfigurationManager.AppSettings["ida:FederationMetadataLocation"])));
-
-            }
+            //if (validationParameters.SigningToken == null)
+            //{
+            //    var resolver = (NamedKeyIssuerTokenResolver)this.Configuration.IssuerTokenResolver;
+            //    if (resolver.SecurityKeys != null)
+            //    {
+            //        var keyName = Configuration.AudienceRestriction.AllowedAudienceUris[0].ToString();
+            //        List<SecurityKey> skeys;
+            //        if (resolver.SecurityKeys.TryGetValue(keyName, out skeys))
+            //        {
+            //            var tok = new NamedKeySecurityToken(keyName, skeys);
+            //            validationParameters.SigningToken = tok;
+            //        }
+            //    }
+            //}
             return base.ValidateToken(jwt, validationParameters);
         }
 
