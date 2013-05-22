@@ -14,6 +14,8 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+*.Debug.config
+*.Release.config
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
