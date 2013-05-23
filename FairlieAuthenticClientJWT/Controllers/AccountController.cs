@@ -4,8 +4,9 @@
 
 using System.Globalization;
 using System.Web.Mvc;
+using FairlieAuthenticClientJWT.Models;
 
-namespace HrdAuthentication.Controllers
+namespace FairlieAuthenticClientJWT.Controllers
 {
     public class AccountController : Controller
     {
@@ -13,7 +14,19 @@ namespace HrdAuthentication.Controllers
         public ActionResult Login()
         {
             ViewBag.MetaDataScript = "https://FairlieAuthentic.accesscontrol.windows.net/v2/metadata/identityProviders.js?protocol=wsfederation&realm=http://fairlieauthenticclient/&version=1.0&callback=ShowSigninPage";
-            return View("~/Views/Account/Login0.cshtml");
+            return View("~/Views/Account/Login.cshtml");
+        }
+
+        public ActionResult Index()
+        {
+            return View("Logout");
+        }
+
+        public void Logout()
+        {
+            string signoutUrl = new LogoutHandler().Signout();
+
+            Response.Redirect(signoutUrl);
         }
     }
 }

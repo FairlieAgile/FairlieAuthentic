@@ -34,11 +34,11 @@ namespace FairlieAuthenticClientJWT.Models
             // Construct wreply value from wtrealm
             if (wtrealm.Last().Equals('/'))
             {
-                wreply = wtrealm + "Logout";
+                wreply = wtrealm + "";
             }
             else
             {
-                wreply = wtrealm + "/Logout";
+                wreply = wtrealm + "/";
             }
 
             // Read the ACS Ws-Federation endpoint from web.Config

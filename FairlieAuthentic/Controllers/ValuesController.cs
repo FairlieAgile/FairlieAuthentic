@@ -20,8 +20,9 @@ namespace FairlieAuthentic.Controllers
         // GET api/values/5
         public string Get(int id)
         {
+            return User.Identity.Name;
             //return ClaimsPrincipal.Current.FindFirst(ClaimTypes.Email).Value;
-            return "value";
+            //return "value";
         }
 
         // POST api/values
