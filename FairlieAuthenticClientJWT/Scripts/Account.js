@@ -4,6 +4,6 @@
 
 function ShowSigninPage(IPs) {
     $.each(IPs, function (i, ip) {
-        $("#IPDiv").append('<a href="' + ip.LoginUrl + '">' + ip.Name + '</a><br/>');
+        $("#IPDiv").append('<a href="' + ip.LoginUrl + '">' + ip.Name + '</a>');
     });
 };

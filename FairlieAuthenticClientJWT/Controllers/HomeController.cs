@@ -15,11 +15,21 @@ namespace FairlieAuthenticClientJWT.Controllers
 {
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Title = "Home";
+            if (Request.IsAuthenticated)
+            {
+                ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+                return View();
+            }
+            else
+            {
+                ViewBag.MetaDataScript = "https://FairlieAuthentic.accesscontrol.windows.net/v2/metadata/identityProviders.js?protocol=wsfederation&realm=http://fairlieauthenticclient/&version=1.0&callback=ShowSigninPage";
+                return View("~/Views/Account/Login.cshtml");
+            }
         }
 
         public ActionResult About()
@@ -47,7 +57,7 @@ namespace FairlieAuthenticClientJWT.Controllers
 
             return View();
         }
-
+        
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
