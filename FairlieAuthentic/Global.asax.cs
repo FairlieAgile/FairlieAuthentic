@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
@@ -49,39 +50,38 @@ namespace FairlieAuthentic
             return true;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-                                                               CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             HttpStatusCode statusCode;
             string token;
+            var authorisationHeader = request.Headers.Authorization;
 
-            if (!TryRetrieveToken(request, out token))
-            {
-                statusCode = HttpStatusCode.Unauthorized;
-                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode));
-            }
-
+            //if (!TryRetrieveToken(request, out token))
+            //{
+            //    statusCode = HttpStatusCode.Unauthorized;
+            //    return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode));
+            //}
             try
             {
-                X509Store store = new X509Store(StoreName.TrustedPeople, StoreLocation.LocalMachine);
-                store.Open(OpenFlags.ReadOnly);
-                X509Certificate2 cert = store.Certificates.Find(
-                    X509FindType.FindByThumbprint,
-                    "F9D1CF40133449D89DE8236BF142BBACE92EC6E0",
-                    false)[0];
-                store.Close();
+                //X509Store store = new X509Store(StoreName.TrustedPeople, StoreLocation.LocalMachine);
+                //store.Open(OpenFlags.ReadOnly);
+                //X509Certificate2 cert = store.Certificates.Find(
+                //    X509FindType.FindByThumbprint,
+                //    "F9D1CF40133449D89DE8236BF142BBACE92EC6E0",
+                //    false)[0];
+                //store.Close();
 
-                JWTSecurityTokenHandler tokenHandler = new JWTSecurityTokenHandler();
-                TokenValidationParameters validationParameters = new TokenValidationParameters()
-                    {
-                        AllowedAudience = "http://fairlieauthenticclient/",
-                        ValidIssuer = "https://fairlieauthentic.accesscontrol.windows.net/",
-                        SigningToken = new X509SecurityToken(cert)
-                    };
+                //JWTSecurityTokenHandler tokenHandler = new JWTSecurityTokenHandler();
+                //TokenValidationParameters validationParameters = new TokenValidationParameters()
+                //    {
+                //        AllowedAudience = ConfigurationManager.AppSettings["fa:AllowedAudience"],
+                //        ValidIssuer = "https://fairlieauthentic.accesscontrol.windows.net/",
+                //        SigningToken = new X509SecurityToken(cert)
+                //    };
 
-                ClaimsPrincipal cp = tokenHandler.ValidateToken(token, validationParameters);
-                Thread.CurrentPrincipal = cp;
-                HttpContext.Current.User = cp;
+                //ClaimsPrincipal cp = tokenHandler.ValidateToken(token, validationParameters);
+                //Thread.CurrentPrincipal = cp;
+                //HttpContext.Current.User = cp;
 
                 return base.SendAsync(request, cancellationToken);
             }

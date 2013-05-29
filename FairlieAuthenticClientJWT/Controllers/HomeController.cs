@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.IdentityModel.Tokens;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace FairlieAuthenticClientJWT.Controllers
             }
             else
             {
-                ViewBag.MetaDataScript = "https://FairlieAuthentic.accesscontrol.windows.net/v2/metadata/identityProviders.js?protocol=wsfederation&realm=http://fairlieauthenticclient/&version=1.0&callback=ShowSigninPage";
+                ViewBag.MetaDataScript = ConfigurationManager.AppSettings["fa:LoginProviders"];
                 return View("~/Views/Account/Login.cshtml");
             }
         }
@@ -38,8 +39,9 @@ namespace FairlieAuthenticClientJWT.Controllers
             JWTSecurityToken jwt = bc.SecurityToken as JWTSecurityToken;
 
             string rawToken = jwt.RawData;
+            string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
 
-            HttpWebRequest request = WebRequest.Create("http://fairlieauthentic/api/values/5") as HttpWebRequest;
+            HttpWebRequest request = WebRequest.Create(api + "values/5") as HttpWebRequest;
             request.Method = "GET";
             request.Headers["Authorization"] = "Bearer " + rawToken;
             request.ContentType = "application/json";
@@ -53,7 +55,7 @@ namespace FairlieAuthenticClientJWT.Controllers
             }
 
             ViewBag.Message =
-                "I just called the backend, and I got back " + responseTxt;
+                api + " : " + responseTxt;
 
             return View();
         }
@@ -61,6 +63,29 @@ namespace FairlieAuthenticClientJWT.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+        
+        [AllowAnonymous]
+        public ActionResult Debug()
+        {
+            string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
+            api += "<br/>" + ConfigurationManager.AppSettings["fa:APIEndPoint"];
+
+            //HttpWebRequest request = WebRequest.Create(api + "debug") as HttpWebRequest;
+            //request.Method = "GET";
+            //request.ContentType = "application/json";
+
+            //string responseTxt = String.Empty;
+            //using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            //{
+            //    var reader = new StreamReader(response.GetResponseStream());
+            //    responseTxt = reader.ReadToEnd();
+            //    response.Close();
+            //}
+
+            ViewBag.Message = api;
 
             return View();
         }

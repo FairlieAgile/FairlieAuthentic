@@ -5,26 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairlieAuthenticClientJWT",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairlieAuthentic", "FairlieAuthentic\FairlieAuthentic.csproj", "{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "initializr", "initializr\", "{014A30B0-3CB4-4125-B81C-839576757249}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/initializr"
-		Debug.AspNetCompiler.PhysicalPath = "initializr\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\initializr\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/initializr"
-		Release.AspNetCompiler.PhysicalPath = "initializr\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\initializr\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "62838"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +19,6 @@ Global
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{014A30B0-3CB4-4125-B81C-839576757249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{014A30B0-3CB4-4125-B81C-839576757249}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{014A30B0-3CB4-4125-B81C-839576757249}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{014A30B0-3CB4-4125-B81C-839576757249}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

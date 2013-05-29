@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel;
+using System.IdentityModel.Services;
+using System.IdentityModel.Services.Configuration;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -24,38 +28,57 @@ namespace FairlieAuthenticClientJWT
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //FederatedAuthentication.FederationConfigurationCreated += OnFederationConfigurationCreated;
         }
 
         protected void Application_Error()
         {
-            var exception = Server.GetLastError();
-            var httpException = exception as HttpException;
-            Response.Clear();
-            Server.ClearError();
+            //var exception = Server.GetLastError();
+            //var httpException = exception as HttpException;
+            //Response.Clear();
+            //Server.ClearError();
 
-            var routeData = new RouteData();
-            routeData.Values["controller"] = "Errors";
-            routeData.Values["action"] = "General";
-            routeData.Values["exception"] = exception;
-            Response.StatusCode = 500;
+            //var routeData = new RouteData();
+            //routeData.Values["controller"] = "Errors";
+            //routeData.Values["action"] = "General";
+            //routeData.Values["exception"] = exception;
+            //Response.StatusCode = 500;
 
-            if (httpException != null)
+            //if (httpException != null)
+            //{
+            //    Response.StatusCode = httpException.GetHttpCode();
+            //    switch (Response.StatusCode)
+            //    {
+            //        case 403:
+            //            routeData.Values["action"] = "Http403";
+            //            break;
+            //        case 404:
+            //            routeData.Values["action"] = "Http404";
+            //            break;
+            //    }
+            //}
+
+            //IController errorsController = new ErrorsController();
+            //var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
+            //errorsController.Execute(rc);
+        }
+
+        void OnFederationConfigurationCreated(object sender, FederationConfigurationCreatedEventArgs e)
+        {
+            var sessionTransforms = new List<CookieTransform>(
+                new CookieTransform[]
             {
-                Response.StatusCode = httpException.GetHttpCode();
-                switch (Response.StatusCode)
-                {
-                    case 403:
-                        routeData.Values["action"] = "Http403";
-                        break;
-                    case 404:
-                        routeData.Values["action"] = "Http404";
-                        break;
-                }
-            }
+                new DeflateCookieTransform(),
+                new RsaEncryptionCookieTransform(e.FederationConfiguration.ServiceCertificate),
+                new RsaSignatureCookieTransform(e.FederationConfiguration.ServiceCertificate)
+            });
+            var sessionHandler = new SessionSecurityTokenHandler(sessionTransforms.AsReadOnly());
 
-            IController errorsController = new ErrorsController();
-            var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
-            errorsController.Execute(rc);
+            e.FederationConfiguration
+                .IdentityConfiguration
+                .SecurityTokenHandlers
+                .AddOrReplace(sessionHandler);
         }
     }
 }
