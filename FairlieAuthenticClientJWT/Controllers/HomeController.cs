@@ -41,7 +41,7 @@ namespace FairlieAuthenticClientJWT.Controllers
             string rawToken = jwt.RawData;
             string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
 
-            HttpWebRequest request = WebRequest.Create(api + "values/5") as HttpWebRequest;
+            HttpWebRequest request = WebRequest.Create(api + "values/1") as HttpWebRequest;
             request.Method = "GET";
             request.Headers["Authorization"] = "Bearer " + rawToken;
             request.ContentType = "application/json";
