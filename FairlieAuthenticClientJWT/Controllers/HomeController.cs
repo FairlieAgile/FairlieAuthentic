@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -42,20 +43,46 @@ namespace FairlieAuthenticClientJWT.Controllers
             string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
 
             HttpWebRequest request = WebRequest.Create(api + "values/1") as HttpWebRequest;
-            request.Method = "GET";
+            request.Method = "POST";
             request.Headers["Authorization"] = "Bearer " + rawToken;
-            request.ContentType = "application/json";
+            //request.ContentType = "application/json";
+
+            string postData = "=Short test...";
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = byteArray.Length;
+
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
 
             string responseTxt = String.Empty;
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            try
             {
-                var reader = new StreamReader(response.GetResponseStream());
-                responseTxt = reader.ReadToEnd();
-                response.Close();
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    var reader = new StreamReader(response.GetResponseStream());
+                    responseTxt = reader.ReadToEnd();
+                    response.Close();
+                }
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.ProtocolError)
+                {
+                    var response = ex.Response as HttpWebResponse;
+                    if (response != null)
+                    {
+                        if ((int) response.StatusCode == 401)
+                        {
+                            return RedirectToAction("Register", "Account");
+                        }
+                    }
+
+                }
             }
 
-            ViewBag.Message =
-                api + " : " + responseTxt;
+            ViewBag.Message = api + " : " + responseTxt;
 
             return View();
         }

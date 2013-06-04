@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace FairlieAuthentic
 {
@@ -15,6 +16,17 @@ namespace FairlieAuthentic
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
+            // use custom JSON serializer to work with Lightspeed entities
+            var serializerSettings = new JsonSerializerSettings() { ContractResolver = new EntityContractResolver() };
+            config.Formatters.JsonFormatter.SerializerSettings = serializerSettings;
+
+
+            // JSON by default
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
             // For more information, visit http://go.microsoft.com/fwlink/?LinkId=279712.
@@ -25,6 +37,7 @@ namespace FairlieAuthentic
             config.EnableSystemDiagnosticsTracing();
 
             config.MessageHandlers.Add(new TokenValidationHandler());
+            config.MessageHandlers.Add(new UserValidationHandler());
         }
     }
 }

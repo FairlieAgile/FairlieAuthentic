@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairlieAuthenticClientJWT",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairlieAuthentic", "FairlieAuthentic\FairlieAuthentic.csproj", "{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairlieAuthenticMigrations", "FairlieAuthenticMigrations\FairlieAuthenticMigrations.csproj", "{4A733DAB-1C54-4B70-B844-288B3FF06472}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D8CCEA-13E0-429E-B344-CCF4F34572CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A733DAB-1C54-4B70-B844-288B3FF06472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A733DAB-1C54-4B70-B844-288B3FF06472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A733DAB-1C54-4B70-B844-288B3FF06472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A733DAB-1C54-4B70-B844-288B3FF06472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

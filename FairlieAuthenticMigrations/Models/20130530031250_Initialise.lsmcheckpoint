@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.1.0.0" name="FairlieAuthentic" targetNamespace="FairlieAuthentic.Models" databaseProvider="SqlServer2012" connectionString="server=.;database=fairlieauthentic;user id=umbracouser;password=test123" pluralizedInDatabase="false" mediumTrustCompatibility="false" migrationProjectName="FairlieAuthenticMigrations\FairlieAuthenticMigrations.csproj" xmlns="http://namespaces.mindscape.co.nz/lightspeed">
+  <entities>
+    <entity name="Customer" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="Username" privateSetter="false" />
+        <entityProperty name="Email" privateSetter="false" />
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="a39170c5-0930-48f9-8bbb-775c7312152a" collectionName="Identities" backreferenceName="Customer" isNullable="false">
+          <entityMoniker name="/FairlieAuthentic/Identity" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="Identity" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="EntityName" privateSetter="false" />
+      </entityProperties>
+    </entity>
+  </entities>
+</model>

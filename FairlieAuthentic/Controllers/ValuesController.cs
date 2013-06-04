@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
 using System.Web.UI.WebControls;
+using FairlieAuthentic.Models;
 
 
 namespace FairlieAuthentic.Controllers
@@ -70,14 +71,13 @@ namespace FairlieAuthentic.Controllers
                 }
                 return "CERTS: " + certs;
             }
-            
-
             return "value";
         }
 
         // POST api/values
         public void Post([FromBody]string value)
         {
+            var x = value;
         }
 
         // PUT api/values/5

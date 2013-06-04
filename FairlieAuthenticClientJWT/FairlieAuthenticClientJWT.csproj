@@ -192,6 +192,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CustomJwtSecurityTokenHandler.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\LogoutHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -242,6 +243,7 @@
     <None Include="Properties\PublishProfiles\FairlieAuthenticClient - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\FairlieAuthenticClient - Web Deploy.pubxml" />
     <Content Include="Views\Home\Debug.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

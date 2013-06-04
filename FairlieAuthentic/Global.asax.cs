@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel.Security;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +17,13 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 using System.Xml;
 using Microsoft.IdentityModel.Tokens.JWT;
+using Mindscape.LightSpeed;
+using Mindscape.LightSpeed.MetaData;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace FairlieAuthentic
 {
@@ -34,7 +40,56 @@ namespace FairlieAuthentic
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+    }
 
+    public class EntityContractResolver : DefaultContractResolver
+    {
+        private const string IdFieldName = "Id";
+        private readonly string[] NonSerializedProperties = new string[5] { "Errors", "Error", "IsValid", "EntityState", "ChangeTracker" };
+        private readonly string[] UnignoreProperties = new string[3] { "CreatedOn", "UpdatedOn", "DeletedOn" };
+
+        protected override JsonContract CreateContract(Type objectType)
+        {
+            if (typeof(Entity).IsAssignableFrom(objectType))
+            {
+                var contract = base.CreateContract(objectType) as JsonObjectContract;
+
+                foreach (var property in contract.Properties.ToList())
+                {
+                    if (property.PropertyName.StartsWith("_") || NonSerializedProperties.Contains(property.PropertyName))
+                    {
+                        contract.Properties.Remove(property);
+                    }
+
+                    if (UnignoreProperties.Contains(property.PropertyName) || !property.PropertyName.StartsWith("_"))
+                    {
+                        property.Ignored = false;
+                    }
+                }
+
+                var entityInfo = EntityInfo.FromType(objectType);
+                var idField = entityInfo.Fields.SingleOrDefault(f => f.PropertyName == IdFieldName);
+
+                contract.Properties.Add(new JsonProperty()
+                {
+                    PropertyName = IdFieldName,
+                    PropertyType = idField.FieldType,
+                    Readable = true,
+                    Writable = false,
+                    Required = Required.Default,
+                    DeclaringType = idField.Field.DeclaringType,
+                    UnderlyingName = IdFieldName,
+                    ValueProvider = new DynamicValueProvider(idField.Field)
+                });
+
+
+                return contract;
+            }
+            else
+            {
+                return base.CreateContract(objectType);
+            }
         }
     }
 
@@ -79,7 +134,6 @@ namespace FairlieAuthentic
 
                 ClaimsPrincipal cp = tokenHandler.ValidateToken(token, validationParameters);
                 Thread.CurrentPrincipal = cp;
-                HttpContext.Current.User = cp;
 
                 return base.SendAsync(request, cancellationToken);
             }
@@ -129,5 +183,26 @@ namespace FairlieAuthentic
             }
         }
 
+    }
+
+    internal class  UserValidationHandler : DelegatingHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var user = Thread.CurrentPrincipal;
+            if (user == null)
+            {
+                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+            }
+            string[] roles = Roles.Provider.GetRolesForUser(user.Identity.Name);
+
+            var principal = new GenericPrincipal(user.Identity, roles);
+            HttpContext.Current.User = principal;
+            if (!principal.IsInRole("User"))
+            {
+                //return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+            }
+            return base.SendAsync(request, cancellationToken);
+        }
     }
 }
