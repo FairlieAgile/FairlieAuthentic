@@ -17,6 +17,13 @@ namespace FairlieAuthenticClientJWT.Controllers
             ViewBag.MetaDataScript = ConfigurationManager.AppSettings["fa:LoginProviders"];
             return View("~/Views/Account/Login.cshtml");
         }
+        
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            ViewBag.role = "Not Authenticated";
+            return View("Register");
+        }
 
         public ActionResult Index()
         {
