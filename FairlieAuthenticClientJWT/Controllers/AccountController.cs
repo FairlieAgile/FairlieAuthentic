@@ -19,6 +19,11 @@ namespace FairlieAuthenticClientJWT.Controllers
 {
     public class AccountController : Controller
     {
+        public ActionResult Index()
+        {
+            return View("Login");
+        }
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -29,54 +34,40 @@ namespace FairlieAuthenticClientJWT.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            using (var client = new HttpClient())
+            if (Request.IsAuthenticated)
             {
-                BootstrapContext bc = ClaimsPrincipal.Current.Identities.First().BootstrapContext as BootstrapContext;
-                JWTSecurityToken jwt = bc.SecurityToken as JWTSecurityToken;
-
-                string rawToken = jwt.RawData;
-                string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
-
-                var request = new HttpRequestMessage()
+                using (var client = new HttpClient())
                 {
-                    RequestUri = new Uri(api + "customer/1" ),
-                    Method = HttpMethod.Get,
-                };
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + rawToken);
-                
-                var productDetailUrl = new Uri("http://fairlieauthentic/api/customer/5");
-                var model = client
-                            .GetAsync(productDetailUrl)
-                            .Result
-                            .Content.ReadAsAsync<Customer>().Result;
+                    BootstrapContext bc = ClaimsPrincipal.Current.Identities.First().BootstrapContext as BootstrapContext;
+                    JWTSecurityToken jwt = bc.SecurityToken as JWTSecurityToken;
 
-                ViewBag.role = model.Email;
-                return View();
+                    string rawToken = jwt.RawData;
+                    string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + rawToken);
+
+                    var productDetailUrl = new Uri("http://fairlieauthentic/api/customer/5");
+                    var model = client
+                        .GetAsync(productDetailUrl)
+                        .Result
+                        .Content.ReadAsAsync<Customer>().Result;
+
+                    //ViewBag.role = model.Email;
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.MetaDataScript = ConfigurationManager.AppSettings["fa:LoginProviders"];
+                return View("~/Views/Account/Login.cshtml");
             }
         }
 
-        private async void GetCustomers()
+        [AllowAnonymous]
+        public JsonResult AddCustomer(Customer customer)
         {
-            string responseTxt = "";
-            BootstrapContext bc = ClaimsPrincipal.Current.Identities.First().BootstrapContext as BootstrapContext;
-            JWTSecurityToken jwt = bc.SecurityToken as JWTSecurityToken;
-
-            string rawToken = jwt.RawData;
-            string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
-
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://fairlieauthentic/");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = await client.GetAsync("api/customer/5");
-            response.EnsureSuccessStatusCode(); // Throw on error code.
-
-            var customers = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
-        }
-
-        public ActionResult Index()
-        {
-            return View("Logout");
+            var message = customer.Username;
+            return Json(new { message });
         }
 
         public void Logout()

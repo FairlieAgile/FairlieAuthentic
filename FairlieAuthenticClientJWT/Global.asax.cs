@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using FairlieAuthenticClientJWT.App_Start;
 using FairlieAuthenticClientJWT.Controllers;
 using Microsoft.Ajax.Utilities;
 

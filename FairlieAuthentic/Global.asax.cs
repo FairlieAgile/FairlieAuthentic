@@ -192,7 +192,7 @@ namespace FairlieAuthentic
             var user = Thread.CurrentPrincipal;
             if (user == null)
             {
-                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.NoContent));
             }
             string[] roles = Roles.Provider.GetRolesForUser(user.Identity.Name);
 
@@ -200,7 +200,7 @@ namespace FairlieAuthentic
             HttpContext.Current.User = principal;
             if (!principal.IsInRole("User"))
             {
-                //return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.NoContent));
             }
             return base.SendAsync(request, cancellationToken);
         }

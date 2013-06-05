@@ -16,12 +16,12 @@ namespace FairlieAuthentic
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //pass error to client
             GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             // use custom JSON serializer to work with Lightspeed entities
             var serializerSettings = new JsonSerializerSettings() { ContractResolver = new EntityContractResolver() };
             config.Formatters.JsonFormatter.SerializerSettings = serializerSettings;
-
 
             // JSON by default
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");

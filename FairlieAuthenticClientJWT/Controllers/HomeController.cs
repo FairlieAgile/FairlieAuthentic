@@ -57,29 +57,16 @@ namespace FairlieAuthenticClientJWT.Controllers
             dataStream.Close();
 
             string responseTxt = String.Empty;
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-                    var reader = new StreamReader(response.GetResponseStream());
-                    responseTxt = reader.ReadToEnd();
-                    response.Close();
-                }
-            }
-            catch (WebException ex)
-            {
-                if (ex.Status == WebExceptionStatus.ProtocolError)
-                {
-                    var response = ex.Response as HttpWebResponse;
-                    if (response != null)
-                    {
-                        if ((int) response.StatusCode == 401)
-                        {
-                            return RedirectToAction("Register", "Account");
-                        }
-                    }
 
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    return RedirectToAction("Register", "Account");
                 }
+                var reader = new StreamReader(response.GetResponseStream());
+                responseTxt = reader.ReadToEnd();
+                response.Close();
             }
 
             ViewBag.Message = api + " : " + responseTxt;

@@ -4,4 +4,38 @@
 }
 
 <h2>Register</h2>
-@ViewBag.role
+<p>Welcome to Fairlie Authentic. It looks like this is your first time here.</p>
+
+<form data-bind="submit: addCustomer">
+    <p>Name: <input data-bind="value: customer.name" /></p>
+    <p>Email: <input data-bind="value: customer.email" /></p>
+    <button type="submit">Save</button>
+</form>
+
+    @ViewBag.role
+
+@section Scripts {
+    <script>
+        function Customer(data) {
+            this.name = data.name;
+            this.email = data.email;
+        }
+
+        function CustomerViewModel() {
+            var self = this;
+            this.customer = new Customer({name: "", email: ""});
+            self.addCustomer = function() {
+                $.ajax("/account/addCustomer", {
+                    data: ko.toJSON({ Customer: self.customer }),
+                    type: "post", contentType: "application/json",
+                    success: function (result) { alert(result.message); }
+                });
+            };
+
+
+        }
+
+        // Activates knockout.js
+        ko.applyBindings(new CustomerViewModel());
+    </script>
+}
