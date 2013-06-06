@@ -66,8 +66,21 @@ namespace FairlieAuthenticClientJWT.Controllers
         [AllowAnonymous]
         public JsonResult AddCustomer(Customer customer)
         {
-            var message = customer.Username;
-            return Json(new { message });
+            using (var client = new HttpClient())
+            {
+                BootstrapContext bc = ClaimsPrincipal.Current.Identities.First().BootstrapContext as BootstrapContext;
+                JWTSecurityToken jwt = bc.SecurityToken as JWTSecurityToken;
+
+                string rawToken = jwt.RawData;
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + rawToken);
+
+                string api = ConfigurationManager.AppSettings["fa:APIEndPoint"];
+                var productDetailUrl = api + "customer";
+                var response = client.PostAsJsonAsync(productDetailUrl, customer).Result;
+
+                string message = response.IsSuccessStatusCode ? "OK": "Failed";
+                return Json(new { message });
+            }
         }
 
         public void Logout()

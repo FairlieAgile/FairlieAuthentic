@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using FairlieAuthentic.Models;
+using Mindscape.LightSpeed;
+
 
 namespace FairlieAuthentic.Controllers
 {
     public class CustomerController : ApiController
     {
+        protected LightSpeedContext<FairlieAuthenticUnitOfWork> LightSpeedContext
+        {
+            get { return WebApiApplication.FaLightSpeedContext; }
+        }
         // GET api/customer
         public IEnumerable<string> Get()
         {
@@ -19,13 +22,23 @@ namespace FairlieAuthentic.Controllers
         // GET api/customer/5
         public Customer Get(int id)
         {
-            var cust = new Customer {Email = "bob@bob.r.us", Username = "bob"};
+            var cust = new Customer {Email = "bob@bob.r.us", Name = "bob"};
             return cust;
         }
 
         // POST api/customer
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Customer customer)
         {
+            using (var uow = LightSpeedContext.CreateUnitOfWork())
+            {
+                Customer cust = new Customer
+                    {
+                        Name = customer.Name, 
+                        Email = customer.Email
+                    };
+                uow.Add(cust);
+                uow.SaveChanges();
+            }
         }
 
         // PUT api/customer/5

@@ -3,7 +3,7 @@
   <entities>
     <entity name="Customer" identityType="Int32" cacheExpiry="0" trackCreateTime="true" trackUpdateTime="true">
       <entityProperties>
-        <entityProperty name="Username" privateSetter="false" />
+        <entityProperty name="Name" privateSetter="false" />
         <entityProperty name="Email" privateSetter="false" />
       </entityProperties>
       <oneToManyAssociations>
@@ -14,7 +14,7 @@
     </entity>
     <entity name="Identity" identityType="Int32" cacheExpiry="0">
       <entityProperties>
-        <entityProperty name="EntityName" privateSetter="false" />
+        <entityProperty name="IdentityId" privateSetter="false" />
       </entityProperties>
     </entity>
     <entity name="Role" identityType="Int32" cacheExpiry="0">

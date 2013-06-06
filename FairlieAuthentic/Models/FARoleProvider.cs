@@ -22,7 +22,7 @@ namespace FairlieAuthentic.Models
             _context = new LightSpeedContext<FairlieAuthenticUnitOfWork>("FA");
             using (var uow = _context.CreateUnitOfWork())
             {
-                var user = uow.Customers.FirstOrDefault(x => x.Username == username);
+                var user = uow.Customers.FirstOrDefault(x => x.Name == username);
                 if (user == null)
                 {
                     return null;

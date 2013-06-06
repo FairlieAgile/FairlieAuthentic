@@ -13,7 +13,7 @@ namespace FairlieAuthentic.Models
   {
     #region Fields
   
-    private string _username;
+    private string _name;
     private string _email;
 
     #pragma warning disable 649  // "Field is never assigned to" - LightSpeed assigns these fields internally
@@ -25,8 +25,8 @@ namespace FairlieAuthentic.Models
     
     #region Field attribute and view names
     
-    /// <summary>Identifies the Username entity attribute.</summary>
-    public const string UsernameField = "Username";
+    /// <summary>Identifies the Name entity attribute.</summary>
+    public const string NameField = "Name";
     /// <summary>Identifies the Email entity attribute.</summary>
     public const string EmailField = "Email";
     /// <summary>Identifies the CreatedOn entity attribute.</summary>
@@ -77,10 +77,10 @@ namespace FairlieAuthentic.Models
     
 
     [System.Diagnostics.DebuggerNonUserCode]
-    public string Username
+    public string Name
     {
-      get { return Get(ref _username, "Username"); }
-      set { Set(ref _username, value, "Username"); }
+      get { return Get(ref _name, "Name"); }
+      set { Set(ref _name, value, "Name"); }
     }
 
     [System.Diagnostics.DebuggerNonUserCode]
@@ -114,15 +114,15 @@ namespace FairlieAuthentic.Models
   {
     #region Fields
   
-    private string _entityName;
+    private string _identityId;
     private int _customerId;
 
     #endregion
     
     #region Field attribute and view names
     
-    /// <summary>Identifies the EntityName entity attribute.</summary>
-    public const string EntityNameField = "EntityName";
+    /// <summary>Identifies the IdentityId entity attribute.</summary>
+    public const string IdentityIdField = "IdentityId";
     /// <summary>Identifies the CustomerId entity attribute.</summary>
     public const string CustomerIdField = "CustomerId";
 
@@ -148,10 +148,10 @@ namespace FairlieAuthentic.Models
 
 
     [System.Diagnostics.DebuggerNonUserCode]
-    public string EntityName
+    public string IdentityId
     {
-      get { return Get(ref _entityName, "EntityName"); }
-      set { Set(ref _entityName, value, "EntityName"); }
+      get { return Get(ref _identityId, "IdentityId"); }
+      set { Set(ref _identityId, value, "IdentityId"); }
     }
 
     /// <summary>Gets or sets the ID for the <see cref="Customer" /> property.</summary>

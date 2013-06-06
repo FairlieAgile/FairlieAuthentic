@@ -19,9 +19,11 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Xml;
+using FairlieAuthentic.Models;
 using Microsoft.IdentityModel.Tokens.JWT;
 using Mindscape.LightSpeed;
 using Mindscape.LightSpeed.MetaData;
+using Mindscape.LightSpeed.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -32,6 +34,8 @@ namespace FairlieAuthentic
 
     public class WebApiApplication : System.Web.HttpApplication
     {
+        public static LightSpeedContext<FairlieAuthenticUnitOfWork> FaLightSpeedContext = new LightSpeedContext<FairlieAuthenticUnitOfWork>("FA");
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -40,6 +44,10 @@ namespace FairlieAuthentic
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            LightSpeedEntityModelBinder.Register(typeof(FairlieAuthenticUnitOfWork).Assembly);
+            ModelValidatorProviders.Providers.Clear();
+            ModelValidatorProviders.Providers.Add(new LightSpeedMvcValidatorProvider());
         }
     }
 
@@ -200,7 +208,7 @@ namespace FairlieAuthentic
             HttpContext.Current.User = principal;
             if (!principal.IsInRole("User"))
             {
-                return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.NoContent));
+                //return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.NoContent));
             }
             return base.SendAsync(request, cancellationToken);
         }

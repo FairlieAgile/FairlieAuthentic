@@ -52,6 +52,9 @@
     <Reference Include="Mindscape.LightSpeed.MetaData">
       <HintPath>..\..\..\..\Program Files (x86)\Mindscape\LightSpeed\Bin\Mindscape.LightSpeed.MetaData.dll</HintPath>
     </Reference>
+    <Reference Include="Mindscape.LightSpeed.Web">
+      <HintPath>..\..\..\..\Program Files (x86)\Mindscape\LightSpeed\Bin\Mindscape.LightSpeed.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
