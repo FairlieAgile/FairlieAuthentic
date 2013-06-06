@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<minimalLanguageDiagram dslVersion="1.1.0.0" absoluteBounds="0, 0, 11, 8.5" name="FairlieAuthentic">
+  <modelMoniker name="/FairlieAuthentic" />
+  <nestedChildShapes>
+    <entityShape Id="bbc45cf1-b78e-4e88-aba9-751deda2f9a3" absoluteBounds="5.5, 1.375, 1.5, 0.89460286458333371">
+      <entityMoniker name="/FairlieAuthentic/Customer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a6ed5ad5-56b2-41ff-9bed-e368a5342527" absoluteBounds="5.515, 1.7850000000000001, 1.4700000000000002, 0.38460286458333331" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <entityShape Id="9bf3eb7e-3b82-47be-b707-7330d36dcb2b" absoluteBounds="1.625, 1.375, 1.5, 0.70230143229166675">
+      <entityMoniker name="/FairlieAuthentic/Identity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5295ba57-27dd-44e6-afcb-0b6cf854a9cb" absoluteBounds="1.6400000000000001, 1.7850000000000001, 1.4700000000000002, 0.19230143229166666" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <oneToManyAssociationConnector edgePoints="[(5.5 : 1.72615071614583); (3.125 : 1.72615071614583)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <oneToManyAssociationMoniker Id="a39170c5-0930-48f9-8bbb-775c7312152a" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="bbc45cf1-b78e-4e88-aba9-751deda2f9a3" />
+        <entityShapeMoniker Id="9bf3eb7e-3b82-47be-b707-7330d36dcb2b" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <entityShape Id="4a405cc0-a382-4b1c-b0cd-0000ff1b9ec8" absoluteBounds="5.5, 3.375, 1.5, 0.70230143229166675">
+      <entityMoniker name="/FairlieAuthentic/Role" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e2cc2d30-e8ad-4eb6-a9b2-2be2f16e6ed4" absoluteBounds="5.5150000000000006, 3.785, 1.4700000000000002, 0.19230143229166666" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <throughAssociationConnector edgePoints="[(6.25 : 3.375); (6.25 : 2.26960286458333)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <throughAssociationMoniker Id="b884cf77-d701-474f-a30b-03d0e0c131d5" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="4a405cc0-a382-4b1c-b0cd-0000ff1b9ec8" />
+        <entityShapeMoniker Id="bbc45cf1-b78e-4e88-aba9-751deda2f9a3" />
+      </nodes>
+    </throughAssociationConnector>
+  </nestedChildShapes>
+</minimalLanguageDiagram>

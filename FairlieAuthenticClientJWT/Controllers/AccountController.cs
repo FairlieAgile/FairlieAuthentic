@@ -46,7 +46,7 @@ namespace FairlieAuthenticClientJWT.Controllers
 
                     client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + rawToken);
 
-                    var productDetailUrl = new Uri("http://fairlieauthentic/api/customer/5");
+                    var productDetailUrl = new Uri(api + "customer/5");
                     var model = client
                         .GetAsync(productDetailUrl)
                         .Result

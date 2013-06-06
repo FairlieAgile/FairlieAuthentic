@@ -44,17 +44,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="20130530031250_Initialise.cs" />
+    <Compile Include="20130606222405_Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="Models\20130530031250_Initialise.lsmcheckpoint" />
     <None Include="Models\20130530031250_Initialise.lsmcheckpoint.diagram" />
+    <None Include="Models\20130606222405_Customer.lsmcheckpoint" />
+    <None Include="Models\20130606222405_Customer.lsmcheckpoint.diagram" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MindscapeLightSpeedMigrationIsTargetConnected="False" MindscapeLightSpeedMigrationDeliveryFormat="GenerateSql" MindscapeLightSpeedMigrationTargetConnectionString="server=.;database=fairlieauthentic;user id=umbracouser;password=test123" MindscapeLightSpeedMigrationTargetType="SqlServer2012" />
+      <UserProperties MindscapeLightSpeedMigrationTargetType="SqlServer2012" MindscapeLightSpeedMigrationTargetConnectionString="server=.;database=fairlieauthentic;user id=umbracouser;password=test123" MindscapeLightSpeedMigrationDeliveryFormat="GenerateSql" MindscapeLightSpeedMigrationIsTargetConnected="False" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
